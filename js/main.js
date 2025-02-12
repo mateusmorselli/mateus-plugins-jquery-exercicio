@@ -1,42 +1,62 @@
-$('#telefone').mascara('(00) 00000-0000', {
-    placeholder: '(DDD) 12345-6789'
-})
+$(document).ready(function() {
+    $('#carousel-images').slick({
+        autoplay: true,                
+    });
+    
 
-$('#cpf').mascara('000.000.000-00', {
-    placeholder: '123.456.789-00'
-})
+    $('.menu-hamburguer').click(function() {
+        $('nav').slideToggle();
+    })
 
-$('#cep').mascara('00000-000', {
-    placeholder: '012345-678'
-})
+    $('#telefone').mask('(00) 00000-0000', {
+        placeholder: '(99) 99999-9999'
+    });
 
-$('form').validate({
-    rules: {
-        nome: {
-            requerido: true
+    $('form').validate({
+        rules: {
+            nome: {
+                required: true
+            },
+            email: {
+                required: true,
+                email: true
+            },
+            telefone: {
+                required: true
+            },
+            mensagem: {
+                required: true
+            },
+            veiculoInteresse: {
+                required: false
+            }
         },
-        email: {
-            requerido: true,
-            email: true
+        messages: {
+            nome: 'Por favor, insira seu nome',
+            telefone: 'Por favor, insira seu telefone',
+            email: 'Por favor, insira um e-mail válido'
         },
-        telefone: {
-            requerido: true
+        submitHandler: function(form) {
+            alert('Obrigado! Retornaremos o mais breve possível!');
+            form.submit();
         },
-        endereco: {
-            requerido: true
-        },
-        cep: {
-            requerido: true
-        },
-        cpf: {
-            requerido: true
-        },
-    },
-    submitHandler: function (form) {
-        alert("Sua requisição foi enviada para análise, parabéns pela aquisição!");
-        form.reset();
-    },
-    invalidHandler: function (form, validator) {
-        alert("Por favor, preencha os campos para prosseguir com a compra!");
-    }
+        invalidHandler: function(evento, validador) {
+            let camposIncorretos = validador.numberOfInvalids();
+            if (camposIncorretos) {
+                alert(`Existem ${camposIncorretos} campos incorretos`);
+            }
+        }    
+    })
+
+    $('.botoesCompra button').click(function(){
+        const destino = $('#contato');
+
+        const nomeVeiculo = $(this).attr('name');
+        $('#veiculo-interesse').val(nomeVeiculo);
+
+        $('html').animate({
+            scrollTop: destino.offset().top
+        }, 1000)
+    })
+
 })
